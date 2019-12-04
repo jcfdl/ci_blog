@@ -54,7 +54,8 @@ class Users extends CI_Controller {
 	}
 
 	public function login() {
-		$data = array();          
+		$data = array();   
+    $data['error_msg'] = '';       
     // Get messages from the session 
     if($this->session->userdata('success_msg')){ 
       $data['success_msg'] = $this->session->userdata('success_msg'); 
