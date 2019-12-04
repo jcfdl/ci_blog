@@ -15,8 +15,4 @@ class MY_AuthController extends CI_Controller {
 			redirect('administrator/login');
 		}
 	}
-
-	public function login() {
-		$this->load->view('administrator/login/index');
-	}
 }

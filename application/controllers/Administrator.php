@@ -8,7 +8,9 @@ class Administrator extends MY_AuthController {
 	}
 
 	public function index() {
-		$this->load->view('administrator/blocks/header');		
+		$data = array();
+		$data['user'] = $this->user->getUser($this->session->userdata('userId'));
+		$this->load->view('administrator/blocks/header', $data);		
 		$this->load->view('administrator/dashboard/index');
 		$this->load->view('administrator/blocks/footer');
 	}

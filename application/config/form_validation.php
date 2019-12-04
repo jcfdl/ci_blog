@@ -27,4 +27,16 @@ $config = array(
 			'rules' => 'required|matches[password]'
 		),
 	),
+	'login' => array(
+		array(
+			'field' => 'email',
+			'label' => 'email',
+			'rules' => 'required|valid_email'
+		),
+		array(
+			'field' => 'password',
+			'label' => 'password',
+			'rules' => 'required'
+		),
+	),
 );

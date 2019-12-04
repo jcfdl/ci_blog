@@ -28,17 +28,20 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="" method="post">
+      <form action="/administrator/login" method="post">
+        <p class="text-danger"><?php echo $error_msg; ?></p>
+        <?php echo form_error('email'); ?>  
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email">
+          <input name="email" type="email" class="form-control" placeholder="Email" required="yes" value="<?php echo set_value('email'); ?>">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
         </div>
+        <?php echo form_error('password'); ?> 
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password">
+          <input name="password" type="password" class="form-control" placeholder="Password" required="yes">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>

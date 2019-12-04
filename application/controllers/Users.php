@@ -65,36 +65,38 @@ class Users extends CI_Controller {
       $this->session->unset_userdata('error_msg'); 
     } 
      
-    // If login request submitted 
-    if($this->input->post('loginSubmit')){ 
-      $this->form_validation->set_rules('email', 'Email', 'required|valid_email'); 
-      $this->form_validation->set_rules('password', 'password', 'required'); 
-       
-      if($this->form_validation->run() == true){ 
-        $con = array( 
-          'returnType' => 'single', 
-          'conditions' => array( 
-              'email'=> $this->input->post('email'), 
-              'password' => md5($this->input->post('password')), 
-              'status' => 1 
-          ) 
-        ); 
-        $checkLogin = $this->user->getRows($con); 
-        if($checkLogin){ 
-          $this->session->set_userdata('isUserLoggedIn', TRUE); 
-          $this->session->set_userdata('userId', $checkLogin['id']); 
-          redirect('users/account/'); 
-        }else{ 
-          $data['error_msg'] = 'Wrong email or password, please try again.'; 
-        } 
+    // If login request submitted       
+    if($this->form_validation->run('login') == true){ 
+      $con = array( 
+        'returnType' => 'single', 
+        'conditions' => array( 
+            'email'=> $this->input->post('email'), 
+            'password' => md5($this->input->post('password')), 
+            'status' => 1 
+        ) 
+      ); 
+      $checkLogin = $this->user->getRows($con); 
+      if($checkLogin){ 
+        $this->session->set_userdata('isUserLoggedIn', TRUE); 
+        $this->session->set_userdata('userId', $checkLogin['id']); 
+        redirect('administrator'); 
       }else{ 
-        $data['error_msg'] = 'Please fill all the mandatory fields.'; 
+        $data['error_msg'] = 'Wrong email or password, please try again.'; 
       } 
-    }     
+    }else{ 
+      $this->form_validation->set_error_delimiters('<small class="text-danger">', '</small>');
+    }  
     // Load view 
     // $this->load->view('elements/header', $data); 
     // $this->load->view('users/login', $data); 
     // $this->load->view('elements/footer'); 
-    $this->load->view('administrator/login/index');
+    $this->load->view('administrator/login/index', $data);
 	}
+
+  public function logout() {
+    $this->session->unset_userdata('isUserLoggedIn'); 
+    $this->session->unset_userdata('userId'); 
+    $this->session->sess_destroy(); 
+    redirect('administrator/login'); 
+  }
 }

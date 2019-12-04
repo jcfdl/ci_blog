@@ -5,6 +5,12 @@ class User extends CI_Model {
 		$this->table = 'users';
 	}
 
+  function getUser($id) {
+    $query = $this->db->get_where($this->table, array('id' => $id));
+    $result = $query->row_array();
+    return $result;
+  }
+
 	function getRows($params = array()) {
 		$this->db->select('*'); 
     $this->db->from($this->table);      
