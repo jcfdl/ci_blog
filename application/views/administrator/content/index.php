@@ -22,13 +22,12 @@
     <section class="content">
       <div class="container-fluid">
         <div class="card card-default color-palette-box">
-          <div class="card-header">
-            <h3 class="card-title">
-              <i class="fas fa-tag"></i>
-              Color Palette
-            </h3>
-          </div>
           <div class="card-body">
+            <div class="row">
+              <div class="col-md-1">
+                <a href="/administrator/content/add" class="btn btn-block btn-success">Add Content</a>
+              </div>
+            </div>
           </div>
           <!-- /.card-body -->
         </div>          

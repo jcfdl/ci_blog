@@ -4,7 +4,6 @@ class Administrator extends MY_AuthController {
 	public function __construct() {
 		parent::__construct();
 		$this->load->library('form_validation');
-		$this->load->model('user');		
 	}
 
 	public function index() {

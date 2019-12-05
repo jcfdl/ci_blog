@@ -13,6 +13,7 @@ class MY_AuthController extends CI_Controller {
 		$this->isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
 		if(!$this->isUserLoggedIn) {
 			redirect('administrator/login');
-		}
+		}				
+		$this->load->model('user');		
 	}
 }
