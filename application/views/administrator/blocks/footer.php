@@ -53,6 +53,7 @@
       }
     }    
   });
+  $('.content .note-codable').attr('name', 'body');
   function sendFile(file, el) {
     data = new FormData();
     data.append("userfile", file);

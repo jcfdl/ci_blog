@@ -25,4 +25,22 @@ class Files extends MY_AuthController {
     }
     echo json_encode($data);
 	}
+
+  public function uploadImage($fieldname) {
+    $data = array();
+    $userData = array();
+    $config['upload_path'] = './assets/uploads/';
+    $config['allowed_types'] = 'gif|jpg|png';
+    $this->upload->initialize($config);
+    if(!$this->upload->do_upload($fieldname)) {      
+      return false;
+    } else {
+      $img = $this->upload->data();
+      $userData = array(
+        'name' => $img['file_name'],
+        'user_id' => $this->session->userdata('userId')
+      );
+      return $this->file_upload->insert($userData);
+    }
+  }
 }

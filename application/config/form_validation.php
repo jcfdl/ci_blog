@@ -39,4 +39,16 @@ $config = array(
 			'rules' => 'required'
 		),
 	),
+	'content' => array(
+		array(
+			'field' => 'title',
+			'label' => 'title',
+			'rules' => 'required'
+		),
+		array(
+			'field' => 'status',
+			'label' => 'status',
+			'rules' => 'required'
+		)
+	),
 );

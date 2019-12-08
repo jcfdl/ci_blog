@@ -1,5 +1,5 @@
 <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper content">
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
@@ -39,8 +39,8 @@
                 <div class="col-md-8">
                   <label>Title:</label>
                   <?php echo form_error('title'); ?>
-                  <input type="text" name="title" class="form-control mb-3" value="<?php echo set_value('title'); ?>" placeholder="Enter title" required>
-                  <input type="textarea" class="content_add">
+                  <input type="text" name="title" class="form-control mb-3" value="<?php echo $content->title; ?>" placeholder="Enter title" required>
+                  <textarea name="body" class="content_add"><?php echo $content->body; ?></textarea>
                 </div>
                 <div class="col-md-4">
                   <label>Status:</label>
@@ -48,7 +48,9 @@
                   <select class="form-control mb-3" name="status" required>
                     <option value="">Select Status</option>
                     <?php foreach($status AS $key => $value) { ?>
-                      <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                      <option value="<?php echo $key; ?>" <?php echo $content->status == $key ? 'selected' : ''; ?>>
+                        <?php echo $value; ?>                          
+                      </option>
                     <?php } ?>
                   </select>
                   <label>Intro Image:</label>                  
