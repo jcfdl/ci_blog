@@ -58,5 +58,6 @@ $route['administrator/login'] = 'users/login';
 $route['administrator/logout'] = 'users/logout';
 // admin content
 $route['administrator/content'] = 'contents/index';
+$route['administrator/content/(:num)'] = 'contents/index/$1';
 $route['administrator/content/add'] = 'contents/add';
 $route['administrator/content/edit/(:any)'] = 'contents/edit/$1';

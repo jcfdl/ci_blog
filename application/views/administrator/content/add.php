@@ -23,7 +23,7 @@
     <section class="content">
       <div class="container-fluid">
         <div class="card card-default color-palette-box">
-          <form action="/administrator/content/add" method="post" enctype="multipart/form-data">
+          <form id="addContent" action="/administrator/content/add" method="post" enctype="multipart/form-data">
             <div class="card-header">
               <div class="row">
                 <div class="col-md-1">
@@ -40,7 +40,7 @@
                   <label>Title:</label>
                   <?php echo form_error('title'); ?>
                   <input type="text" name="title" class="form-control mb-3" value="<?php echo set_value('title'); ?>" placeholder="Enter title" required>
-                  <input type="textarea" class="content_add">
+                  <input type="textarea" name="body" class="content_add">
                 </div>
                 <div class="col-md-4">
                   <label>Status:</label>

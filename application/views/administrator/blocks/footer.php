@@ -44,6 +44,8 @@
 <script src="<?php echo base_url('assets/plugins/summernote/summernote-bs4.min.js'); ?>"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('assets/administrator/js/adminlte.js'); ?>"></script>
+<!-- TOASTER -->
+<script src="<?php echo base_url('assets/plugins/toastr/toastr.min.js'); ?>"></script>
 <script>  
   $('.content_add').summernote({
     height: 600, focus: true,
@@ -53,7 +55,10 @@
       }
     }    
   });
-  $('.content .note-codable').attr('name', 'body');
+  $('#addContent').submit(function(e) {
+    var textarea = $('.content_add');
+    textarea.val($('.content_add').summernote('code'));
+  });
   function sendFile(file, el) {
     data = new FormData();
     data.append("userfile", file);
@@ -65,14 +70,16 @@
       contentType: false,
       processData: false,
       dataType: 'JSON',
-      success: function(data) {
-        console.log(data)
-        console.log(data.file)
-        $(el).summernote('editor.insertImage', data.file);
+      success: function(data) {    
+        if(data.success) {
+          $(el).summernote('editor.insertImage', data.file);
+          toastr.success(data.msg);
+        } else {
+          toastr.error(data.msg);
+        }
       }
     });
   }
 </script>
-
 </body>
 </html>
