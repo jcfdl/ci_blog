@@ -46,8 +46,8 @@ class Contents extends MY_AuthController {
 		// end config for pagination
 		$this->pagination->initialize($config);
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-    $data['links'] = $this->pagination->create_links();
-    $data['contents'] = $this->content->getContents($config["per_page"], $page);
+   		$data['links'] = $this->pagination->create_links();
+    	$data['contents'] = $this->content->getLiveContents($config["per_page"], $page);
 		$this->load->view('administrator/blocks/header', $data);
 		$this->load->view('administrator/content/index', $data);
 		$this->load->view('administrator/blocks/footer');
@@ -82,8 +82,8 @@ class Contents extends MY_AuthController {
 
   public function edit($id) {
   	$data = array();
-		$data['user'] = $this->user->getUser($this->session->userdata('userId'));
-  	$content = $this->content->getRow($id, $this->session->userdata('userId'));
+	$data['user'] = $this->user->getUser($this->session->userdata('userId'));
+  	$content = $this->content->getRow($id);
 
 		$data['status'] = $this->content->getStatus();
   	if(!$content) {
@@ -93,5 +93,17 @@ class Contents extends MY_AuthController {
   	$this->load->view('administrator/blocks/header', $data);
 		$this->load->view('administrator/content/edit', $data);
 		$this->load->view('administrator/blocks/footer');	
+  }
+
+  public function delete($id) {
+  	$data = array(); 
+  	$content = $this->content->getRow($id);
+  	if(!$content) {
+  		$this->session->set_flashdata('error_msg', 'No content was found!');
+  		redirect('administrator/content');
+  	}
+  	$this->content->deleteRow($id);
+  	$this->session->set_flashdata('success_msg', 'Content was deleted!');
+  	redirect('administrator/content');  	
   }
 }

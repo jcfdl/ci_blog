@@ -12,8 +12,8 @@ class Content extends CI_Model {
 		return $status;
 	}
 
-	function getRow($id, $userId) {
-		$query = $this->db->get_where($this->table, array('id'=>$id, 'user_id'=>$userId));
+	function getRow($id) {
+		$query = $this->db->get_where($this->table, array('id'=>$id, 'user_id'=>$this->session->userdata('userId')));
 		return $query->row();
 	}
 
@@ -22,10 +22,21 @@ class Content extends CI_Model {
 		return $query->count_all_results();
 	}
 
-	function getContents($limit, $start) {
+	function getLiveContents($limit, $start) {
+		$array = array(
+			'user_id' => $this->session->userdata('userId'),
+			'status' => 1
+		);
 		$this->db->limit($limit, $start);
-		$query = $this->db->get_where($this->table, array('user_id'=>$this->session->userdata('userId')));
+		$query = $this->db->get_where($this->table, $array);
 		return $query->result();
+	}
+
+	function deleteRow($id) {
+		$this->db->set('status', 0);
+		$this->db->where('id', $id);
+		$this->db->update($this->table);
+		return true;
 	}
 
 	public function insert($data = array()) {

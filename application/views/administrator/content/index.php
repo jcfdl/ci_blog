@@ -24,12 +24,23 @@
         <div class="card card-default color-palette-box">
           <div class="card-header">
             <div class="row">
-              <div class="col-md-1">
-                <a href="/administrator/content/add" class="btn btn-block btn-success">Add Content</a>
-              </div>               
+              <a href="/administrator/content/add" class="btn btn-success">Add Content</a>              
             </div>             
           </div>
           <div class="card-body p-0">
+            <?php if($this->session->flashdata('error_msg')): ?>
+              <div class="alert alert-danger alert-dismissible m-2">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                <?= $this->session->flashdata('error_msg') ?>
+              </div>
+            <?php elseif($this->session->flashdata('success_msg')): ?>
+               <div class="alert alert-success alert-dismissible m-2">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                <?= $this->session->flashdata('success_msg') ?>
+              </div> 
+            <?php endif; ?>
             <table class="table table-center">
               <thead>
                 <tr>
@@ -54,7 +65,11 @@
                     </td>
                     <td><?= $content->created ?></td>
                     <td><?= $content->modified ?></td>
-                    <td>Edit</td>
+                    <td>
+                      <a href="/administrator/content/edit/<?= $content->id; ?>" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                      <a href="/administrator/content/delete/<?= $content->id; ?>" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+
+                    </td>
                   </tr>
                 <?php endforeach; ?>
               </tbody>
