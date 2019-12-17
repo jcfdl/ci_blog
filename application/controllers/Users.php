@@ -10,9 +10,46 @@ class Users extends CI_Controller {
     // $this->isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
 	}
 
-	public function index() {
-		
+	public function index($id = '') {
+        $data = array();
+        $data['user'] = $this->user->getUser($this->session->userdata('userId'));
+        // config for pagination
+        $config['base_url'] = base_url() . "administrator/users";
+        $config['total_rows'] = $this->user->getCount();
+        $config['per_page'] = 10;
+        $config['uri_segment'] = 3;
+        // customization of pagination
+        $config['full_tag_open'] = '<ul class="pagination pagination-sm mb-0">';
+        $config['full_tag_close'] = '</ul>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = $config['last_tag_open'] = $config['first_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = $config['last_tag_close'] = $config['first_tag_close'] = '</li>';
+        $config['prev_link'] = '«';
+        $config['next_link'] = '»';
+        $config['attributes'] = array('class'=>'page-link');
+        // end of pagination
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data['links'] = $this->pagination->create_links();
+        $data['users'] = $this->user->getLiveUsers($config["per_page"], $page);
+        $this->load->view('administrator/blocks/header', $data);
+        $this->load->view('administrator/user/index', $data);
+        $this->load->view('administrator/blocks/footer');
+
 	}
+
+    public function add() {
+
+    }
+
+    public function edit($id) {
+        $data = array();
+        $data['user'] = $this->user->getUser($this->session->userdata('userId'));
+        $this->load->view('administrator/blocks/header', $data);
+        $this->load->view('administrator/user/edit', $data);
+        $this->load->view('administrator/blocks/footer');
+    }
 
 	public function account() {
 		$data = array(); 

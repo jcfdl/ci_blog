@@ -62,4 +62,10 @@ $route['administrator/content/(:num)'] = 'contents/index/$1';
 $route['administrator/content/add'] = 'contents/add';
 $route['administrator/content/edit/(:any)'] = 'contents/edit/$1';
 $route['administrator/content/delete/(:any)'] = 'contents/delete/$1';
+// admin user
+$route['administrator/users'] = 'users/index';
+$route['administrator/users/(:num)'] = 'users/index/$1';
+$route['administrator/users/edit/(:any)'] = 'users/edit/$1';
+
+
 

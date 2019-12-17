@@ -5,12 +5,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Contents</h1>
+            <h1 class="m-0 text-dark">Users</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/administrator">Home</a></li>
-              <li class="breadcrumb-item active">Content</li>
+              <li class="breadcrumb-item active">Users</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -24,7 +24,7 @@
         <div class="card card-default color-palette-box">
           <div class="card-header">
             <div class="row">
-              <a href="/administrator/content/add" class="btn btn-success">Add Content</a>              
+              <a href="/administrator/content/add" class="btn btn-success">Add User</a>              
             </div>             
           </div>
           <div class="card-body p-0">
@@ -44,31 +44,25 @@
             <table class="table table-center">
               <thead>
                 <tr>
-                  <th>Title</th>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Email</th>
                   <th>Created</th>
-                  <th>Modified</th>
+                  <th>Status</th>
                   <th><i class="fas fa-cog"></i></th>
                 </tr>
               </thead>
               <tbody>
-                <?php foreach($contents AS $content): ?>
+                <?php foreach($users AS $user): ?>
                   <tr>
+                    <td><?= $user->first_name . ' ' . $user->last_name; ?></td>
+                    <td><?= ucfirst($user->role_name) ?></td>
+                    <td><?= $user->email ?></td>
+                    <td><?= $user->modified ?></td>
+                    <td>Live</td>
                     <td>
-                      <?php if($content->status == 1): ?>
-                        yes
-                      <?php elseif($content->status == 2): ?>
-                        yesyyes
-                      <?php else: ?>
-                        123
-                      <?php endif; ?>
-                      <?= $content->title ?>                        
-                    </td>
-                    <td><?= $content->created ?></td>
-                    <td><?= $content->modified ?></td>
-                    <td>
-                      <a href="/administrator/content/edit/<?= $content->id; ?>" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                      <a href="/administrator/content/delete/<?= $content->id; ?>" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-
+                      <a href="/administrator/users/edit/<?= $user->id; ?>" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                      <a href="/administrator/users/delete/<?= $user->id; ?>" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                     </td>
                   </tr>
                 <?php endforeach; ?>

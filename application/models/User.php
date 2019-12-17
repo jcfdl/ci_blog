@@ -1,6 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); 
  
 class User extends CI_Model {
+
+  protected $table;
+
 	function __construct() {
 		$this->table = 'users';
 	}
@@ -9,6 +12,24 @@ class User extends CI_Model {
     $query = $this->db->get_where($this->table, array('id' => $id));
     $result = $query->row_array();
     return $result;
+  }
+
+  function getLiveUsers($limit, $start) {
+    $array = array(
+      'users.status' => 1
+    );
+    $this->db->limit($limit, $start);
+    $this->db->select('users.*, roles.name AS role_name');
+    $this->db->from($this->table);
+    $this->db->join('roles', 'roles.id = users.role_id');
+    $this->db->where($array);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  function getCount() {
+    $query = $this->db->where('status', 1)->from($this->table);
+    return $query->count_all_results();
   }
 
 	function getRows($params = array()) {
@@ -42,6 +63,13 @@ class User extends CI_Model {
     // Return fetched data 
     return $result; 
 	}
+
+  function deleteRow($id) {
+    $this->db->set('status', 0);
+    $this->db->where('id', $id);
+    $this->db->update($this->table);
+    return true;
+  }
 
 	public function insert($data = array()) {
     if(!empty($data)){ 

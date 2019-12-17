@@ -18,7 +18,7 @@ class Content extends CI_Model {
 	}
 
 	function getCount() {
-		$query = $this->db->where('user_id', $this->session->userdata('userId'))->from($this->table);
+		$query = $this->db->where('user_id', $this->session->userdata('userId'))->where('status', 1)->from($this->table);
 		return $query->count_all_results();
 	}
 
