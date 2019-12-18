@@ -19,92 +19,89 @@
     </div>
     <!-- /.content-header -->
     <section class="content">
-      <div class="row">
-        <div class="col-md-3">
-          <!-- Profile Image -->
-          <div class="box box-primary">
-            <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url('assets/img/avatar.png'); ?>" alt="User profile picture">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+            <!-- Profile Image -->
+            <div class="card card-default color-palette-box">
+              <img class="profile-user-img img-responsive img-circle mt-2" src="<?php echo base_url('assets/img/avatar.png'); ?>" alt="User profile picture">
 
-              <h3 class="profile-username text-center">Nina Mcintire</h3>
+              <h3 class="profile-username text-center"><?= $user["first_name"] . ' ' . $user["last_name"] ?></h3>
 
-              <p class="text-muted text-center">Software Engineer</p>
-
+              <p class="text-muted text-center"><?= ucfirst($user["role_name"]) ?></p>
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Followers</b> <a class="pull-right">1,322</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Following</b> <a class="pull-right">543</a>
-                </li>
-                <li class="list-group-item">
-                  <b>Friends</b> <a class="pull-right">13,287</a>
-                </li>
-              </ul>
-
-              <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                  <b>Content Created:</b> <a class="pull-right"><?= $content_count ?></a>
+                </li>                
+              </ul>      
             </div>
-            <!-- /.box-body -->
+            <!-- /.box -->
           </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-md-9">         
-          <div class="tab-pane active" id="settings">
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label for="inputName" class="col-sm-2 control-label">Name</label>
+          <!-- /.col -->
+          <div class="col-md-9">         
+            <div class="card card-default color-palette-box p-2">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">First Name:</label>
 
-                <div class="col-sm-10">
-                  <input type="email" class="form-control" id="inputName" placeholder="Name">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
-                <div class="col-sm-10">
-                  <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputName" placeholder="Name">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
-
-                <div class="col-sm-10">
-                  <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                    </label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="first_name" placeholder="Name" value="<?= $user['first_name'] ?>" required>
                   </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-danger">Submit</button>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Last Name:</label>
+
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="last_name" placeholder="Name" value="<?= $user['last_name'] ?>" required>
+                  </div>
                 </div>
-              </div>
-            </form>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Email:</label>
+
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="email" placeholder="Name" value="<?= $user['email'] ?>" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Role:</label>
+
+                  <div class="col-sm-10">
+                    <select name="role_id" class="form-control" required>
+                      <option value="">Select Role</option>
+                      <?php foreach($roles AS $role): ?>
+                        <option value="<?= $role->id ?>" <?= $role->id == $user['role_id'] ? 'selected' : '' ?>>
+                          <?= ucfirst($role->name) ?>
+                        </option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <label class="col-sm-2 control-label">Status:</label>
+
+                  <div class="col-sm-10">
+                    <select name="status" class="form-control" required>
+                      <option value="">Select Status</option>
+                      <?php foreach($user_status AS $key => $value): ?>
+                        <option value="<?= $key ?>" <?= $key == $user['status'] ? 'selected' : '' ?>>
+                          <?= $value ?>
+                        </option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <a href="/administrator/users/change-password/<?= $user['id'] ?>" class="btn btn-success">Change default password</a>
+                    <button name="update_user" type="submit" class="btn btn-primary">Update User</button>
+                    <a href="/administrator/users" class="btn btn-danger">Cancel</a>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
+          <!-- /.col -->
         </div>
-        <!-- /.col -->
       </div>
       <!-- /.row -->
     </section>

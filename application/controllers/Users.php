@@ -6,6 +6,8 @@ class Users extends CI_Controller {
 		// load neccesary libraries
 		$this->load->library('form_validation');
 		$this->load->model('user');
+        $this->load->model('content');
+        $this->load->model('role');
 		// check if logged in
     // $this->isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
 	}
@@ -45,7 +47,10 @@ class Users extends CI_Controller {
 
     public function edit($id) {
         $data = array();
-        $data['user'] = $this->user->getUser($this->session->userdata('userId'));
+        $data['user'] = $this->user->getUser($id);
+        $data['content_count'] = $this->content->getUserContentCount($id);
+        $data['roles'] = $this->role->getRoles();
+        $data['user_status'] = $this->user->getStatus();
         $this->load->view('administrator/blocks/header', $data);
         $this->load->view('administrator/user/edit', $data);
         $this->load->view('administrator/blocks/footer');

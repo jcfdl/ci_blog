@@ -8,8 +8,21 @@ class User extends CI_Model {
 		$this->table = 'users';
 	}
 
+  function getStatus() {
+    $status = array(
+      1 => 'Active',
+      0 => 'Inactive'
+    );
+
+    return $status;
+  }
+
   function getUser($id) {
-    $query = $this->db->get_where($this->table, array('id' => $id));
+    $this->db->select('users.*, roles.name AS role_name');
+    $this->db->from($this->table);
+    $this->db->join('roles', 'roles.id = users.role_id');
+    $this->db->where( array('users.id' => $id));
+    $query = $this->db->get();
     $result = $query->row_array();
     return $result;
   }

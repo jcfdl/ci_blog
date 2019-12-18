@@ -22,6 +22,11 @@ class Content extends CI_Model {
 		return $query->count_all_results();
 	}
 
+	function getUserContentCount($user_id) {
+		$query = $this->db->where('user_id', $user_id)->where('status', 1)->from($this->table);
+		return $query->count_all_results();
+	}
+
 	function getLiveContents($limit, $start) {
 		$array = array(
 			'user_id' => $this->session->userdata('userId'),
