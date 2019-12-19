@@ -17,6 +17,10 @@ class User extends CI_Model {
     return $status;
   }
 
+  function getDefaultPassword() {
+    return '123456';
+  }
+
   function getUser($id) {
     $this->db->select('users.*, roles.name AS role_name');
     $this->db->from($this->table);
@@ -84,7 +88,7 @@ class User extends CI_Model {
     return true;
   }
 
-	public function insert($data = array()) {
+	function insert($data = array()) {
     if(!empty($data)){ 
       // Add created and modified date if not included 
       if(!array_key_exists("created", $data)){ 
@@ -102,4 +106,11 @@ class User extends CI_Model {
     } 
     return false; 
 	}
+
+  function update($id, $data = array()) {
+    $this->db->set($data);
+    $this->db->where('id', $id);
+    $this->db->update($this->table);
+    return true;
+  }
 } 

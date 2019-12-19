@@ -27,6 +27,33 @@ $config = array(
 			'rules' => 'required|matches[password]'
 		),
 	),
+	'update_user' => array(
+		array(
+			'field' => 'first_name',
+			'label' => 'first name',
+			'rules' => 'required|regex_match[/^([a-z ])+$/i]'
+		),
+		array(
+			'field' => 'id',
+			'label' => 'id',
+			'rules' => 'required'
+		),
+		array(
+			'field' => 'last_name',
+			'label' => 'last name',
+			'rules' => 'required|regex_match[/^([a-z ])+$/i]'
+		),
+		array(
+			'field' => 'role_id',
+			'label' => 'role',
+			'rules' => 'required'
+		),
+		array(
+			'field' => 'status',
+			'label' => 'status',
+			'rules' => 'required'
+		),
+	),
 	'login' => array(
 		array(
 			'field' => 'email',
@@ -52,3 +79,5 @@ $config = array(
 		)
 	),
 );
+$config['error_prefix'] = '<small class="text-danger">';
+$config['error_suffix'] = '</small>';

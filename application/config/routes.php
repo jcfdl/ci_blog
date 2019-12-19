@@ -66,6 +66,9 @@ $route['administrator/content/delete/(:any)'] = 'contents/delete/$1';
 $route['administrator/users'] = 'users/index';
 $route['administrator/users/(:num)'] = 'users/index/$1';
 $route['administrator/users/edit/(:any)'] = 'users/edit/$1';
+$route['administrator/users/change-password/(:any)'] = 'users/userChangePassword/$1';
+$route['administrator/users/update'] = 'users/update';
+
 
 
 

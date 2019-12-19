@@ -45,16 +45,43 @@ class Users extends CI_Controller {
 
     }
 
-    public function edit($id) {
-        $data = array();
-        $data['user'] = $this->user->getUser($id);
-        $data['content_count'] = $this->content->getUserContentCount($id);
-        $data['roles'] = $this->role->getRoles();
-        $data['user_status'] = $this->user->getStatus();
-        $this->load->view('administrator/blocks/header', $data);
-        $this->load->view('administrator/user/edit', $data);
-        $this->load->view('administrator/blocks/footer');
+  public function edit($id) {
+      $data = array();
+      $data['user'] = $this->user->getUser($id);
+      $data['content_count'] = $this->content->getUserContentCount($id);
+      $data['roles'] = $this->role->getRoles();
+      $data['user_status'] = $this->user->getStatus();
+      $userData = array();
+    if($this->form_validation->run('update_user') == TRUE) {
+      $userData = array(
+        'first_name' => strip_tags(ucfirst($this->input->post('first_name'))), 
+        'last_name' => strip_tags(ucfirst($this->input->post('last_name'))),   
+        'role_id' => strip_tags($this->input->post('role_id')),
+        'status' => strip_tags($this->input->post('status')),
+      );
+      $update = $this->user->update($this->input->post('id'), $userData);
+      if($update) {
+        $this->session->set_flashdata('success_msg', 'Successfully updated user!');
+        redirect('administrator/users/edit/'. $this->input->post('id'));
+      }
     }
+      $this->load->view('administrator/blocks/header', $data);
+      $this->load->view('administrator/user/edit', $data);
+      $this->load->view('administrator/blocks/footer');
+  }
+
+  public function userChangePassword($id) {
+    $userData = array();
+    $password = $this->user->getDefaultPassword();
+    $userData = array(
+      'password' => md5($password),
+    );
+    $update = $this->user->update($id, $userData);
+    if($update) {
+      $this->session->set_flashdata('success_msg', 'Successfully changed user passwort to default password!');
+      redirect('administrator/users/edit/'. $id);
+    }
+  } 
 
 	public function account() {
 		$data = array(); 

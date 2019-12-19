@@ -40,29 +40,45 @@
           <!-- /.col -->
           <div class="col-md-9">         
             <div class="card card-default color-palette-box p-2">
-              <form class="form-horizontal">
+              <?php if($this->session->flashdata('success_msg')): ?>
+                 <div class="alert alert-success alert-dismissible m-2">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                  <?= $this->session->flashdata('success_msg') ?>
+                </div> 
+              <?php endif; ?>
+              <form action="" method="post" class="form-horizontal">
+                <?= form_error('first_name') ?>
+
                 <div class="form-group">
                   <label class="col-sm-2 control-label">First Name:</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" name="first_name" placeholder="Name" value="<?= $user['first_name'] ?>" required>
+                    <input type="text" class="form-control" name="first_name" placeholder="First Name" value="<?= $user['first_name'] ?>" required>
                   </div>
                 </div>
+                <?= form_error('last_name') ?>
+
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Last Name:</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" name="last_name" placeholder="Name" value="<?= $user['last_name'] ?>" required>
+                    <input type="text" class="form-control" name="last_name" placeholder="Last Name" value="<?= $user['last_name'] ?>" required>
                   </div>
                 </div>
                 <div class="form-group">
+
                   <label class="col-sm-2 control-label">Email:</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" name="email" placeholder="Name" value="<?= $user['email'] ?>" required>
+
+                    <input type="text" class="form-control" placeholder="Email" value="<?= $user['email'] ?>" disabled>
                   </div>
                 </div>
+                  <?= form_error('role_id') ?>
+
                 <div class="form-group">
+
                   <label class="col-sm-2 control-label">Role:</label>
 
                   <div class="col-sm-10">
@@ -76,7 +92,10 @@
                     </select>
                   </div>
                 </div>
+                  <?= form_error('status') ?>
+                
                  <div class="form-group">
+
                   <label class="col-sm-2 control-label">Status:</label>
 
                   <div class="col-sm-10">
@@ -90,6 +109,7 @@
                     </select>
                   </div>
                 </div>
+                <input type="hidden" name="id" value="<?= $user['id'] ?>">
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
                     <a href="/administrator/users/change-password/<?= $user['id'] ?>" class="btn btn-success">Change default password</a>
