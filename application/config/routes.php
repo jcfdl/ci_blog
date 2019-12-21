@@ -68,6 +68,8 @@ $route['administrator/users/(:num)'] = 'users/index/$1';
 $route['administrator/users/edit/(:any)'] = 'users/edit/$1';
 $route['administrator/users/change-password/(:any)'] = 'users/userChangePassword/$1';
 $route['administrator/users/update'] = 'users/update';
+$route['administrator/users/search/(:any)'] = 'users/search/$1';
+
 
 
 

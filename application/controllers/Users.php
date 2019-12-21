@@ -8,42 +8,92 @@ class Users extends CI_Controller {
 		$this->load->model('user');
         $this->load->model('content');
         $this->load->model('role');
+    $this->perPage = 1;
 		// check if logged in
     // $this->isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
 	}
 
 	public function index($id = '') {
-        $data = array();
-        $data['user'] = $this->user->getUser($this->session->userdata('userId'));
-        // config for pagination
-        $config['base_url'] = base_url() . "administrator/users";
-        $config['total_rows'] = $this->user->getCount();
-        $config['per_page'] = 10;
-        $config['uri_segment'] = 3;
-        // customization of pagination
-        $config['full_tag_open'] = '<ul class="pagination pagination-sm mb-0">';
-        $config['full_tag_close'] = '</ul>';
-        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link">';
-        $config['cur_tag_close'] = '</a></li>';
-        $config['num_tag_open'] = $config['last_tag_open'] = $config['first_tag_open'] = '<li class="page-item">';
-        $config['num_tag_close'] = $config['last_tag_close'] = $config['first_tag_close'] = '</li>';
-        $config['prev_link'] = '«';
-        $config['next_link'] = '»';
-        $config['attributes'] = array('class'=>'page-link');
-        // end of pagination
-        $this->pagination->initialize($config);
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $data['links'] = $this->pagination->create_links();
-        $data['users'] = $this->user->getLiveUsers($config["per_page"], $page);
-        $this->load->view('administrator/blocks/header', $data);
-        $this->load->view('administrator/user/index', $data);
-        $this->load->view('administrator/blocks/footer');
+    $data = array();
+    $data['user'] = $this->user->getUser($this->session->userdata('userId'));
+    // config for pagination
+    $config['target'] = '#datalist';
+    $config['link_func'] = 'searchFilter';
+    $config['base_url'] = base_url('administrator/users/search');
+    $config['total_rows'] = $this->user->getCount();
+    $config['per_page'] = $this->perPage;
+    $config['uri_segment'] = 3;
+    // customization of pagination
+    $config['full_tag_open'] = '<ul class="pagination pagination-sm mb-0">';
+    $config['full_tag_close'] = '</ul>';
+    $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link">';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = $config['last_tag_open'] = $config['first_tag_open'] = '<li class="page-item">';
+    $config['num_tag_close'] = $config['last_tag_close'] = $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '«';
+    $config['next_link'] = '»';
+    $config['attributes'] = array('class'=>'page-link');
+    $config['show_count'] = 0;
+    // end of pagination
+    $this->ajax_pagination->initialize($config);
+    $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+    $data['links'] = $this->ajax_pagination->create_links();
+    $data['users'] = $this->user->getLiveUsers($config["per_page"], $page);
+    $this->load->view('administrator/blocks/header', $data);
+    $this->load->view('administrator/user/index', $data);
+    $this->load->view('administrator/blocks/footer');
 
 	}
 
-    public function add() {
-
+  public function search() {
+    $page = $this->input->post('page');
+    if(!$page) {
+      $offset = 0;
+    } else {
+      $offset = $page;
     }
+    $search = $this->input->post('search');
+    $status = $this->input->post('status');
+    if(!empty($search)) {
+      $conditions['search']['keywords'] = $search;
+    }
+    if(!empty($status)) {
+      $conditions['where']['status'] = $status;
+    }
+
+    $conditions['returnType'] = 'count';
+    $total_rows = $this->user->getRows($conditions);
+    // pagition config
+    $config['target'] = '#datalist';
+    $config['link_func'] = 'searchFilter';
+    $config['base_url'] = base_url('administrator/users/search');
+    $config['total_rows'] = $total_rows;
+    $config['per_page'] = $this->perPage;
+    $config['uri_segment'] = 4;
+    // customization of pagination
+    $config['full_tag_open'] = '<ul class="pagination pagination-sm mb-0">';
+    $config['full_tag_close'] = '</ul>';
+    $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link">';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['num_tag_open'] = $config['last_tag_open'] = $config['first_tag_open'] = '<li class="page-item">';
+    $config['num_tag_close'] = $config['last_tag_close'] = $config['first_tag_close'] = '</li>';
+    $config['prev_link'] = '«';
+    $config['next_link'] = '»';
+    $config['attributes'] = array('class'=>'page-link');
+    $config['show_count'] = 0;
+    // end pagination config
+    $this->ajax_pagination->initialize($config);
+    $conditions['start'] = $offset; 
+    $conditions['limit'] = $this->perPage; 
+    unset($conditions['returnType']); 
+    $data['links'] = $this->ajax_pagination->create_links();
+    $data['users'] = $this->user->getRows($conditions); 
+    $this->load->view('administrator/user/ajax', $data);
+  }
+
+  public function add() {
+
+  }
 
   public function edit($id) {
       $data = array();

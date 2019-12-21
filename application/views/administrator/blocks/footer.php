@@ -1,9 +1,6 @@
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    <strong>Copyright &copy; 2019.</strong>
     All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.0.1
-    </div>
   </footer>
 
   <!-- Control Sidebar -->
@@ -78,6 +75,24 @@
           toastr.error(data.msg);
         }
       }
+    });
+  }
+  // ajax search
+  function searchFilter(page_num){
+    page_num = page_num?page_num:0;
+    var search = $('#search').val();
+    var status = $('#status').val();
+    $.ajax({
+        type: 'POST',
+        url: '/administrator/users/search/'+page_num,
+        data:'page='+page_num+'&search='+search+'&status='+status,
+        // beforeSend: function(){
+        //     $('.loading').show();
+        // },
+        success: function(html){
+            $('#datalist').html(html);
+            $('.loading').fadeOut("slow");
+        }
     });
   }
 </script>

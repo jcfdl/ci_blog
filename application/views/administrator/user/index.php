@@ -23,9 +23,24 @@
       <div class="container-fluid">
         <div class="card card-default color-palette-box">
           <div class="card-header">
-            <div class="row">
+            <div class="row mb-2">
               <a href="/administrator/content/add" class="btn btn-success">Add User</a>              
-            </div>             
+            </div>      
+            <div class="row">  
+              <div class="input-group w-25 mr-1">
+                <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search" onkeyup="searchFilter()">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <i class="fas fa-search"></i>
+                  </div>
+                </div>
+              </div>
+              <select id="status" class="w-25 custom-select" onchange="searchFilter()">
+                <option value="">Select Status</option>
+                <option value="1">Active</option>
+                <option value="2">Inactive</option>
+              </select>
+            </div>     
           </div>
           <div class="card-body p-0">
             <?php if($this->session->flashdata('error_msg')): ?>
@@ -41,41 +56,43 @@
                 <?= $this->session->flashdata('success_msg') ?>
               </div> 
             <?php endif; ?>
-            <table class="table table-center">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Role</th>
-                  <th>Email</th>
-                  <th>Created</th>
-                  <th>Status</th>
-                  <th><i class="fas fa-cog"></i></th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach($users AS $user): ?>
+            <div id="datalist">
+              <table class="table table-center">
+                <thead>
                   <tr>
-                    <td><?= $user->first_name . ' ' . $user->last_name; ?></td>
-                    <td><?= ucfirst($user->role_name) ?></td>
-                    <td><?= $user->email ?></td>
-                    <td><?= $user->modified ?></td>
-                    <td>Live</td>
-                    <td>
-                      <a href="/administrator/users/edit/<?= $user->id; ?>" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                      <a href="/administrator/users/delete/<?= $user->id; ?>" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                    </td>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                    <th>Created</th>
+                    <th>Status</th>
+                    <th><i class="fas fa-cog"></i></th>
                   </tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
-          </div>
-          <?php if($links): ?>
-            <div class="card-footer">
-              <div class="card-tools">
-                <?php echo $links; ?>
-              </div>
+                </thead>
+                <tbody>
+                  <?php foreach($users AS $user): ?>
+                    <tr>
+                      <td><?= $user->first_name . ' ' . $user->last_name; ?></td>
+                      <td><?= ucfirst($user->role_name) ?></td>
+                      <td><?= $user->email ?></td>
+                      <td><?= $user->modified ?></td>
+                      <td>Live</td>
+                      <td>
+                        <a href="/administrator/users/edit/<?= $user->id; ?>" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                        <a href="/administrator/users/delete/<?= $user->id; ?>" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+              <?php if($links): ?>
+                <div class="card-footer">
+                  <div class="card-tools">
+                    <?php echo $links; ?>
+                  </div>
+                </div>
+              <?php endif; ?>
             </div>
-          <?php endif; ?>
+          </div>          
           <!-- /.card-body -->
         </div>          
       </div><!-- /.container-fluid -->
